@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${garage.address}"></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1 th:text="${garage.address}"></h1>
+<p>Capacity: <span th:text="${garage.capacity}"></span></p>
+<p>Accepts LPG: <span th:text="${garage.acceptsLpg} ? 'Yes' : 'No'"></span></p>
+<h2>Cars:</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Brand</th>
+    <th>Model</th>
+    <th>Fuel type</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="car : ${garage.cars}">
+    <td th:text="${car.brand}"></td>
+    <td th:text="${car.model}"></td>
+    <td th:text="${car.fuelType}"></td>
+    <td>
+      <button th:attr="data-carid=${car.id}" class="delete-car-button">Delete</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<h2>Add a car:</h2>
+<form th:action="@{/garage/{garageId}/add-car(garageId=${garage.id})}" method="post" th:object="${car}">
+  <p>
+    <label for="brand">Brand:</label>
+    <input type="text" id="brand" name="brand" th:field="*{brand}" required>
+  </p>
+  <p>
+    <label for="model">Model:</label>
+    <input type="text" id="model" name="model" th:field="*{model}" required>
+  </p>
+  <p>
+    <label for="fuelType">Fuel type:</label>
+    <select id="fuelType" name="fuelType" th:field="*{fuelType}" required>
+      <option value="PETROL">Petrol</option>
+      <option value="DIESEL">Diesel</option>
+      <option value="LPG">LPG</option>
+    </select>
+  </p>
+  <p>
+    <button type="submit">Add car</button>
+  </p>
+</form>
+<script>
+  $(document).ready(function() {
+    $('.delete-car-button').click(function() {
+      var carId = $(this).data('carid');
+      if (confirm('Are you sure you want to delete this car?')) {
+        window.location.href = '/car/' + carId + '/delete';
+      }
+    });
+  });
+</script>
+</body>
+</html>
