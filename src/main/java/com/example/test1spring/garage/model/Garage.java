@@ -25,16 +25,4 @@ public class Garage {
 
     private boolean acceptsLpg;
 
-    @OneToMany(mappedBy = "garage", cascade = CascadeType.ALL)
-    private List<Car> cars = new ArrayList<>();
-
-    public boolean canAddCar(Car car) {
-        if (cars.size() >= capacity) {
-            return false;
-        }
-        if (car.getFuelType() == FuelType.LPG && !acceptsLpg) {
-            return false;
-        }
-        return true;
     }
-}
