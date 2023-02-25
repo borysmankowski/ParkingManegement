@@ -1,4 +1,7 @@
 package com.example.test1spring.garage;
 
-public class GarageRepository {
+import com.example.test1spring.garage.model.Garage;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GarageRepository extends JpaRepository<Integer, Garage> {
 }
