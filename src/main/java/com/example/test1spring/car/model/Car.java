@@ -1,6 +1,7 @@
 package com.example.test1spring.car.model;
 
 import com.example.test1spring.common.FuelType;
+import com.example.test1spring.garage.model.Garage;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,13 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
 
+    @ManyToOne
+    private Garage garage;
+
+    public void setGarage(Garage garage) {
+        this.garage = garage;
+        garage.getCars().add(this);
+    }
 }
+
 
