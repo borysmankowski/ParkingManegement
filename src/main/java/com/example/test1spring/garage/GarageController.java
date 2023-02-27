@@ -1,66 +1,44 @@
 package com.example.test1spring.garage;
 
-import com.example.test1spring.car.CarRepository;
-import com.example.test1spring.car.model.Car;
 import com.example.test1spring.garage.model.Garage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
+@RequiredArgsConstructor
+@RequestMapping("/garages")
 public class GarageController {
+    private GarageService garageService;
 
-    @Autowired
-    private GarageRepository garageRepository;
-
-    @Autowired
-    private CarRepository carRepository;
-
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Garage> garages = garageRepository.findAll();
-        model.addAttribute("garages", garages);
-        return "index";
+    @GetMapping("/{id}")
+    public Garage getGarageById(@PathVariable int id) {
+        return garageService.getGarageById(id);
     }
 
-    @GetMapping("/garage/{garageId}")
-    public String showGarage(@PathVariable int garageId, Model model) {
-        Garage garage = garageRepository.findById(garageId).orElseThrow(() -> new IllegalArgumentException("Invalid garage ID"));
-        model.addAttribute("garage", garage);
-        model.addAttribute("car", new Car());
-        return "garage";
+    @PostMapping
+    public Garage addGarage(@RequestBody Garage garage) {
+        return garageService.addGarage(garage);
     }
 
-    @PostMapping("/garage/addCar")
-    public synchronized String addCarToGarage(@RequestParam int garageId, @RequestParam int carId) {
-        Garage garage = garageRepository.findById(garageId).orElseThrow(() -> new RuntimeException("Garage not found"));
-        Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Car not found"));
-
-        if (!garage.canAddCar(car)) {
-            throw new RuntimeException("Garage is full or cannot accept this car");
-        }
-
-        if (!garage.canAcceptCarLpg(car)) {
-            throw new RuntimeException("Garage does not accept LPG cars");
-        }
-
-        garage.addCar(car);
-        garageRepository.save(garage);
-
-        return "redirect:/garage/" + garageId;
+    @PutMapping("/{id}")
+    public Garage updateGarage(@PathVariable int id, @RequestBody Garage garage) {
+        return garageService.updateGarage(id, garage);
     }
 
-    @PostMapping("/garage/removeCar")
-    public synchronized String removeCarFromGarage(@RequestParam int garageId, @RequestParam int carId) {
-        Garage garage = garageRepository.findById(garageId).orElseThrow(() -> new RuntimeException("Garage not found"));
-        Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Car not found"));
+    @DeleteMapping("/{id}")
+    public void deleteGarage(@PathVariable int id) {
+        garageService.deleteGarage(id);
+    }
 
-        garage.removeCar(car);
-        garageRepository.save(garage);
+    @PostMapping("/{garageId}/cars/{carId}")
+    public void addCarToGarage(@PathVariable int garageId, @PathVariable int carId) {
+        garageService.addCarToGarage(garageId, carId);
+    }
 
-        return "redirect:/garage/" + garageId;
+    @DeleteMapping("/{garageId}/cars/{carId}")
+    public void removeCarFromGarage(@PathVariable int garageId, @PathVariable int carId) {
+        garageService.removeCarFromGarage(garageId, carId);
     }
 }

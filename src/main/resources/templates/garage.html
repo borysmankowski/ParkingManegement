@@ -2,6 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <title>Garages</title>
+</head>
+<body>
+<h1>Garages</h1>
+<ul>
+  <li th:each="garage : ${garages}">
+    <a th:href="@{/garage/{garageId}(garageId=${garage.id})}" th:text="${garage.address}"></a>
+  </li>
+</ul>
+<h2>Add a garage:</h2>
+<form th:action="@{/garage/add}" method="post" th:object="${garage}">
+  <p>
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" th:field="*{address}" required>
+  </p>
+  <p>
+    <label for="capacity">Capacity:</label>
+    <input type="number" id="capacity" name="capacity" th:field="*{capacity}" required>
+  </p>
+  <p>
+    <label for="acceptsLpg">Accepts LPG:</label>
+    <input type="checkbox" id="acceptsLpg" name="acceptsLpg" th:field="*{acceptsLpg}">
+  </p>
+  <p>
+    <button type="submit">Add garage</button>
+  </p>
+</form>
+</body>
+</html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
   <title th:text="${garage.address}"></title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -42,25 +75,3 @@
   </p>
   <p>
     <label for="fuelType">Fuel type:</label>
-    <select id="fuelType" name="fuelType" th:field="*{fuelType}" required>
-      <option value="PETROL">Petrol</option>
-      <option value="DIESEL">Diesel</option>
-      <option value="LPG">LPG</option>
-    </select>
-  </p>
-  <p>
-    <button type="submit">Add car</button>
-  </p>
-</form>
-<script>
-  $(document).ready(function() {
-    $('.delete-car-button').click(function() {
-      var carId = $(this).data('carid');
-      if (confirm('Are you sure you want to delete this car?')) {
-        window.location.href = '/car/' + carId + '/delete';
-      }
-    });
-  });
-</script>
-</body>
-</html>

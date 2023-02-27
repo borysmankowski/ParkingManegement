@@ -5,6 +5,8 @@ import com.example.test1spring.garage.model.Garage;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -29,6 +31,10 @@ public class Car {
     public void setGarage(Garage garage) {
         this.garage = garage;
         garage.getCars().add(this);
+    }
+
+    public List<Garage> getGarages() {
+        return (List<Garage>) garage;
     }
 }
 
