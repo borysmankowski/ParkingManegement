@@ -2,6 +2,7 @@ package com.example.test1spring.garage.model;
 
 import com.example.test1spring.car.model.Car;
 import com.example.test1spring.common.FuelType;
+import com.example.test1spring.garage.GarageRepository;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,11 +31,13 @@ public class Garage {
 
     public boolean canAddCar(Car car) {
         if (cars.size() >= capacity) {
-            return false;
+            throw new RuntimeException("Garage cannot accept this car as its using LPG");
         }
         if (car.getFuelType() == FuelType.LPG && !acceptsLpg) {
             return false;
         }
+        cars.add(car);
+        car.setGarage(this);
         return true;
     }
 
@@ -46,12 +49,9 @@ public class Garage {
         car.setGarage(this);
     }
 
-    public boolean canAcceptCarLpg(Car car) {
-        return !car.getFuelType().equals(FuelType.LPG) || acceptsLpg;
-    }
-
     public void removeCar(Car car) {
         cars.remove(car);
         car.setGarage(null);
     }
+
 }
