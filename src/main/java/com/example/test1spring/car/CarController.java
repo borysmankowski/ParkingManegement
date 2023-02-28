@@ -1,33 +1,48 @@
 package com.example.test1spring.car;
 
 import com.example.test1spring.car.model.Car;
+import com.example.test1spring.car.model.CarDto;
+import com.example.test1spring.garage.GarageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/cars")
 public class CarController {
-    private CarService carService;
+    private final CarService carService;
 
-    @GetMapping("/id")
-    public Car getCarById(@PathVariable int id) {
-        return carService.getCarById(id);
+    private final GarageService garageService;
+
+    @GetMapping
+    public String getCarList(Model model) {
+        model.addAttribute("cars", carService.findAll());
+        return "car/list";
     }
 
-
-    @PostMapping
-    public Car addCar(@RequestBody Car car) {
-        return carService.addCar(car);
+    @GetMapping("/create")
+    public String getCarCreateForm(Model model) {
+        model.addAttribute("cars", carService.findAll());
+        model.addAttribute("garages", garageService.findAll());
+        return "car/form";
     }
 
-    @PutMapping("/id")
-    public Car updateCar(@PathVariable int id, @RequestBody Car car) {
-        return carService.updateCar(id, car);
+    @PostMapping("/create")
+    public String createCar(Car car, @RequestParam("garageId") int garageId) {
+        carService.save(car, garageId);
+        return "redirect:/cars";
     }
 
-    @DeleteMapping("/id")
-    public void deleteCar(@PathVariable int id) {
-        carService.deleteCar(id);
+    @GetMapping(params = "garage")
+    @ResponseBody
+    public List<CarDto> findAllbyGarage(@RequestParam("garage") int garageId) {
+        return carService.findAllByGarageId(garageId).stream()
+                .map(CarDto::fromEntity)
+                .toList();
     }
 }
 

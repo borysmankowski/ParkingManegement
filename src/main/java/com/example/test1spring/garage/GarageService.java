@@ -39,35 +39,39 @@ public class GarageService {
         garageRepository.deleteById(id);
     }
 
-    public void addCarToGarage(int garageId, int carId) {
-        Garage garage = getGarageById(garageId);
-        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car not found"));
+//    public void addCarToGarage(int garageId, int carId) {
+//        Garage garage = getGarageById(garageId);
+//        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car not found"));
+//
+//        if (!garage.isAcceptsLpg() && car.getFuelType() == FuelType.LPG) {
+//            throw new IllegalArgumentException("Garage doesn't accept LPG cars");
+//        }
+//
+//        if (garage.getCars().size() >= garage.getCapacity()) {
+//            throw new IllegalStateException("Garage is full");
+//        }
+//
+//        garage.getCars().add(car);
+//        car.getGarages().add(garage);
+//        garageRepository.save(garage);
+//        carRepository.save(car);
+//    }
 
-        if (!garage.isAcceptsLpg() && car.getFuelType() == FuelType.LPG) {
-            throw new IllegalArgumentException("Garage doesn't accept LPG cars");
-        }
+//    public void removeCarFromGarage(int garageId, int carId) {
+//        Garage garage = getGarageById(garageId);
+//        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car not found"));
+//
+//        if (!garage.getCars().contains(car)) {
+//            throw new IllegalArgumentException("Car is not in the garage");
+//        }
+//
+//        garage.getCars().remove(car);
+//        car.getGarages().remove(garage);
+//        garageRepository.save(garage);
+//        carRepository.save(car);
+//    }
 
-        if (garage.getCars().size() >= garage.getCapacity()) {
-            throw new IllegalStateException("Garage is full");
-        }
-
-        garage.getCars().add(car);
-        car.getGarages().add(garage);
-        garageRepository.save(garage);
-        carRepository.save(car);
-    }
-
-    public void removeCarFromGarage(int garageId, int carId) {
-        Garage garage = getGarageById(garageId);
-        Car car = carRepository.findById(carId).orElseThrow(() -> new EntityNotFoundException("Car not found"));
-
-        if (!garage.getCars().contains(car)) {
-            throw new IllegalArgumentException("Car is not in the garage");
-        }
-
-        garage.getCars().remove(car);
-        car.getGarages().remove(garage);
-        garageRepository.save(garage);
-        carRepository.save(car);
+    public List<Garage> findAll() {
+        return garageRepository.findAll();
     }
 }
