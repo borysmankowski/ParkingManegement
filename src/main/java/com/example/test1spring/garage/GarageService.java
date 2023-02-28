@@ -7,6 +7,8 @@ import com.example.test1spring.garage.model.Garage;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GarageService {
     private GarageRepository garageRepository;
@@ -15,6 +17,10 @@ public class GarageService {
 
     public Garage getGarageById(int id) {
         return garageRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Garage not found"));
+    }
+
+    public List<Garage> getAllGarages(Garage garage) {
+        return garageRepository.findAll();
     }
 
     public Garage addGarage(Garage garage) {
