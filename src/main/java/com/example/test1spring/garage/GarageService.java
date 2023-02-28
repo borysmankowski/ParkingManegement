@@ -11,9 +11,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GarageService {
-    private GarageRepository garageRepository;
+    private final GarageRepository garageRepository;
 
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
     public Garage getGarageById(int id) {
         return garageRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Garage not found"));

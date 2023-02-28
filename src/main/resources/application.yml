@@ -3,9 +3,9 @@ spring:
     console:
       enabled: true
   datasource:
-    username: admin1
-    password: admin1
-    url: jdbc:h2:mem:db
+    username: admin12
+    password: admin12
+    url: jdbc:h2:mem:testdb
   sql:
     init:
       mode: always
