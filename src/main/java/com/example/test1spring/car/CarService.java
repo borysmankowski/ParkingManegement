@@ -36,6 +36,7 @@ public class CarService {
         }
 
         car.setGarage(garage);
+        car.setActive(true);
         carRepository.save(car);
     }
     public void deleteById(int id) {

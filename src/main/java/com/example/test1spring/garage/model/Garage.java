@@ -30,7 +30,7 @@ public class Garage {
 
     boolean active;
 
-    @OneToMany(mappedBy = "garage", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "garage")
     private Set<Car> cars;
 
 //    public boolean canAddCar(Car car) {

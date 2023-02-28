@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Formularz garazy</title>
 </head>
 <body>
+<h1>Dodaj garaz</h1>
+</br>
+
+<form method="post" action="/garages/create">
+
+    <input type="text" name="address" placeholder="Adres"/></br>
+    <input type="text" name="capacity" placeholder="Pojemnosc"/></br>
+
+    <label>
+        <input type="checkbox" name="acceptsLpg" value="true">Accepts LPG
+    </label>
+
+    </br>
+    </br>
+    <button type="submit">Dodaj</button>
+
+</form>
 
 </body>
 </html>
