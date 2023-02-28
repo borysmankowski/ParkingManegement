@@ -27,13 +27,10 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
 
-    @ManyToOne
-    private Garage garage;
+   @ManyToOne
+   private Garage garage;
 
     private boolean active;
-
-    @OneToMany(mappedBy = "car")
-    private Set<Car> carList;
 }
 
 

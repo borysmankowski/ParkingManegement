@@ -44,5 +44,11 @@ public class CarController {
                 .map(CarDto::fromEntity)
                 .toList();
     }
+
+    @DeleteMapping
+    @ResponseBody
+    public void deleteById(@RequestParam int idToDelete) {
+        carService.deleteById(idToDelete);
+    }
 }
 

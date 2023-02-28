@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Garaze</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
+<h1>Garaze</h1>
+</br>
 
+<p2><a href="/garages/create">dodaj</a></p2>
+</br>
+</br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Marka</th>
+        <th>Model</th>
+        <th>  </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="car : ${cars}">
+        <td th:text="${car.id}"></td>
+        <td th:text="${car.make}"></td>
+        <td th:text="${car.model}"></td>
+        <td><button th:id="btn + ${car.id}" th:value="${car.id}" onclick="deleteCar(this.id)">Usuń</button></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
+
+<script type="text/javascript">
+
+    function deleteCar(btnId) {
+        let btn = document.getElementById(btnId);
+        let url = "/cars?idToDelete=" + btn.value;
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function () {
+                window.location.reload();
+            },
+            error:  function () {
+                alert("wystąpił błąd podczas usuwania")
+            }
+        })
+    }
+
+</script>

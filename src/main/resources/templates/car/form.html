@@ -2,9 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Formularz Samochodow</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
+<h1>Dodaj samochod</h1>
+</br>
 
+<form method="post" action="/students/create">
+
+    <input type="text" name="make" placeholder="marka"/></br>
+    <input type="text" name="model" placeholder="model"/></br>
+
+    <select id="lSelectId" name="garage" onchange="populateGarages(this.id, 'tSelectId')">
+        <option value="" disabled selected>wybierz garaz</option>
+        <option th:each="garage : ${garages}" th:text="${garage}" th:value="${garage}"></option>
+    </select>
+
+    </br>
+    <select id="tSelectId" name="garageId">
+        <option value="" disabled selected>Wybierz garaz</option>
+    </select>
+    </br>
+    </br>
+
+    </br>
+    <button type="submit">Dodaj samochod do garazu</button>
+
+</form>
 </body>
 </html>
+
+<script type="text/javascript">
+
+    function populateGarages(carSelectorId, garageSelectorId) {
+        let lSelect = document.getElementById(carSelectorId);
+        let tSelect = document.getElementById(garageSelectorId);
+        let link = "/garages=" + lSelect.value;
+        $.getJSON(link, function (data) {
+            tSelect.innerHTML = '<option value="" disabled selected>Wybierz garaz</option>';
+            data.forEach(garage => {
+                let option = '<option value="' + garage.id + '">' + garage.address + '</option>';
+                tSelect.innerHTML += option;
+            })
+        });
+    }
+
+</script>
