@@ -1,15 +1,15 @@
 package com.example.test1spring.garage;
 
 import com.example.test1spring.car.CarRepository;
-import com.example.test1spring.car.model.Car;
-import com.example.test1spring.common.FuelType;
 import com.example.test1spring.garage.model.Garage;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class GarageService {
     private GarageRepository garageRepository;
 

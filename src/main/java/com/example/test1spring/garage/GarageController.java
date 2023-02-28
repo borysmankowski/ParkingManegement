@@ -22,7 +22,13 @@ public class GarageController {
         return "garages/list";
     }
 
-  @PostMapping("garages/create")
+    @GetMapping("/create")
+    public String getGarageCreateFrom(Model model) {
+        model.addAttribute("garages", garageService.findAll());
+        return "garages/form";
+    }
+
+  @PostMapping("/create")
     public String createGarage(Garage garage){
         garageService.save(garage);
         return "redirect:/garages";
