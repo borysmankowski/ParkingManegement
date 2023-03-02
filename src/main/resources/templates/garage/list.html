@@ -1,27 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Garaze</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <title>Garages list</title>
 </head>
 <body>
-<h1>Garaze</h1>
-</br>
-
-<p2><a href="/garages/create">dodaj</a></p2>
-</br>
-</br>
-
+<h1>Garages list</h1>
 <table>
     <thead>
     <tr>
         <th>ID</th>
         <th>Address</th>
-        <th>Pojemnosc</th>
-        <th>  </th>
+        <th>Capacity</th>
+        <th>Accepts LPG</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -29,28 +21,26 @@
         <td th:text="${garage.id}"></td>
         <td th:text="${garage.address}"></td>
         <td th:text="${garage.capacity}"></td>
-        <td><button th:id="btn + ${garage.id}" th:value="${garage.id}" onclick="deleteTeacher(this.id)">Usuń</button></td>
+        <td th:text="${garage.acceptsLpg}"></td>
+        <td>
+            <a th:href="@{/garages/{id}(id=${garage.id})}">Details</a>
+            <a th:href="@{/garages/{id}/edit(id=${garage.id})}">Edit</a>
+            <button type="button" onclick="deleteGarage(${garage.id})">Delete</button>
+        </td>
     </tr>
     </tbody>
 </table>
+
+<a href="/garages/create">Create new garage</a>
+
+<script>
+    function deleteGarage(id) {
+        fetch('/garages/' + id, {
+            method: 'DELETE'
+        }).then(function(response) {
+            window.location.reload();
+        });
+    }
+</script>
 </body>
 </html>
-
-<script type="text/javascript">
-
-    function deleteTeacher(btnId) {
-        let btn = document.getElementById(btnId);
-        let url = "/teachers?idToDelete=" + btn.value;
-        $.ajax({
-            url: url,
-            type: 'DELETE',
-            success: function () {
-                window.location.reload();
-            },
-            error:  function () {
-                alert("wystąpił błąd podczas usuwania")
-            }
-        })
-    }
-
-</script>

@@ -16,46 +16,29 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@SQLDelete(sql = "UPDATE garage SET active = '0' WHERE id = ?")
 public class Garage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String address;
-
     private int capacity;
-
     private boolean acceptsLpg;
-
-    boolean active;
 
     @OneToMany(mappedBy = "garage")
     private Set<Car> cars;
+    private boolean active;
 
-//    public boolean canAddCar(Car car) {
-//        if (cars.size() >= capacity) {
-//            throw new RuntimeException("Garage cannot accept this car as its using LPG");
-//        }
-//        if (car.getFuelType() == FuelType.LPG && !acceptsLpg) {
-//            return false;
-//        }
-//        cars.add(car);
-//        car.setGarage(this);
-//        return true;
-//    }
-
-//    public void addCar(Car car) {
-//        if (!canAddCar(car)) {
-//            throw new RuntimeException("Garage is full or cannot accept this car");
-//        }
-//        cars.add(car);
-//        car.setGarage(this);
-//    }
-
-//    public void removeCar(Car car) {
-//        cars.remove(car);
-//        car.setGarage(null);
-//    }
+    @Override
+    public String toString() {
+        return "Garage{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", capacity=" + capacity +
+                ", acceptsLpg=" + acceptsLpg +
+                ", cars=" + cars +
+                ", active=" + active +
+                '}';
+    }
 
 }

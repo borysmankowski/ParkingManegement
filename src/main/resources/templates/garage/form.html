@@ -2,26 +2,27 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Formularz garazy</title>
+    <title>Form garage</title>
 </head>
 <body>
-<h1>Dodaj garaz</h1>
+<h1>Add garage</h1>
 </br>
-
-<form method="post" action="/garages/create">
-
-    <input type="text" name="address" placeholder="Adres"/></br>
-    <input type="text" name="capacity" placeholder="Pojemnosc"/></br>
-
-    <label>
-        <input type="checkbox" name="acceptsLpg" value="true">Accepts LPG
-    </label>
-
-    </br>
-    </br>
-    <button type="submit">Dodaj</button>
-
+<form method="post" th:object="${garage}" action="#" th:action="@{/garages/create}">
+    <input type="hidden" th:if="${garage.id}" th:field="*{id}">
+    <label>Adress:</label>
+    <input type="text" th:field="*{address}" required>
+    <br>
+    <label>Capacity:</label>
+    <input type="number" th:field="*{capacity}" required>
+    <br>
+    <label>Accepts LPG:</label>
+    <input type="checkbox" th:field="*{acceptsLpg}">
+    <br>
+    <button type="submit">Save</button>
 </form>
+
+
+
 
 </body>
 </html>
